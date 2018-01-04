@@ -1,0 +1,5 @@
+port = "5432"
+sslmode="disable"
+dbname = "communa.db"
+user = "postgres"
+pass = "postgres"
