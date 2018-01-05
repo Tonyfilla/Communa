@@ -9,8 +9,8 @@ import (
 )
 
 type User struct {
-	login    string `json:"login"`
-	password string `json:"password"`
+	Login    string `json:"login"`
+	Password string `json:"password"`
 }
 
 func getID(w http.ResponseWriter, ps httprouter.Params) (string, bool) {
@@ -37,9 +37,11 @@ func getRecords(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	// var body string
 	if err = json.NewEncoder(w).Encode(recs); err != nil { // проблема гдето тут
 		w.WriteHeader(500)
 	}
+	// w.(`{"login":"IVAN","password":"9284724"}`)
 }
 
 func getRecord(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -65,11 +67,11 @@ func getRecord(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 func addRecord(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var rec User                                // curl -i http://localhost:8080/api/v1/users -XPOST -d '{"login":"IVAN","password":"9284724"}'
 	err := json.NewDecoder(r.Body).Decode(&rec) // проблема гдето тут
-	if err != nil || rec.password == "" {
+	if err != nil || rec.Password == "" {
 		w.WriteHeader(400)
 		return
 	}
-	if _, err := insert(rec.login, rec.password); err != nil {
+	if _, err := insert(rec.Login, rec.Password); err != nil {
 		w.WriteHeader(500)
 		return
 	}
@@ -83,11 +85,11 @@ func updateRecord(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 	}
 	var rec User
 	err := json.NewDecoder(r.Body).Decode(&rec)
-	if err != nil || rec.login == "" || rec.password == "" {
+	if err != nil || rec.Login == "" || rec.Password == "" {
 		w.WriteHeader(400)
 		return
 	}
-	res, err := update(id, rec.password)
+	res, err := update(id, rec.Password)
 	if err != nil {
 		w.WriteHeader(500)
 		return

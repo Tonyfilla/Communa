@@ -21,7 +21,7 @@ func update(login, password string) (sql.Result, error) {
 func readOne(login string) (User, error) {
 	var rec User
 	row := db.QueryRow("SELECT * FROM users WHERE login=$1 ORDER BY login", login)
-	return rec, row.Scan(&rec.login, &rec.password) //how it work
+	return rec, row.Scan(&rec.Login, &rec.Password) //how it work
 }
 
 func read(str string) ([]User, error) {
@@ -41,7 +41,7 @@ func read(str string) ([]User, error) {
 	var rs = make([]User, 0)
 	var rec User
 	for rows.Next() {
-		if err = rows.Scan(&rec.login, &rec.password); err != nil {
+		if err = rows.Scan(&rec.Login, &rec.Password); err != nil {
 			return nil, err
 		}
 		rs = append(rs, rec)
